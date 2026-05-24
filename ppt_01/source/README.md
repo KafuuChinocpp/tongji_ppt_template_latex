@@ -14,7 +14,6 @@ assets/                         模板背景和示例素材
 reference/                      原 PPT 导出的参考图和插图素材
 FONT_REQUIREMENTS.md            字体依赖和高保真复刻说明
 LAYOUT_WORKFLOW.md              版式命令和 vibe coding 工作流
-information_needed.md           协作信息表
 latex_template_plan.md          实现方案说明
 ```
 
