@@ -1,0 +1,35 @@
+# Local Windows fonts. Keep these outside public GitHub repos unless the font
+# license explicitly allows redistribution.
+/fonts/
+
+# LaTeX build output.
+/build/
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.xdv
+*.synctex.gz
+
+# Large reference exports from the original PPT. They are useful while
+# recreating the template, but not required for normal template use.
+/reference/*.pdf
+/reference/百态冬韵/
+/reference/百态冬韵_无文字/
+
+# Video sources are useful as original presentation material, but LaTeX uses
+# static frames in assets/worldmodel/ for normal PDF compilation.
+/reference/ppt插图/*.mp4
+
+# Temporary or redundant extracted assets.
+/assets/assets_contact_sheet.png
+/assets/reference/
+/assets/image2.jpeg
+/assets/image5.jpeg
+/assets/image6.jpeg
+/assets/image7.jpeg
+/assets/image9.jpeg
