@@ -95,7 +95,7 @@
 \newcommand{\report@labelfour}[4]{\makebox[2.35cm][l]{#1\hfill#2\hfill#3\hfill#4}}
 \newcommand{\report@field}[2]{%
   #1 &
-  \rule[-0.2ex]{7.7cm}{0.45pt}\makebox[0pt][r]{\hspace{-7.7cm}#2}%
+  \underline{\makebox[7.7cm][c]{#2}}%
 }
 
 \NewDocumentCommand{\MakeReportCover}{}{%
