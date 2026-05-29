@@ -9,6 +9,7 @@
 \usepackage{hyperref}
 \usepackage{xparse}
 \usepackage{xcolor}
+\usepackage{indentfirst}
 
 \geometry{
   paper=a4paper,
@@ -57,18 +58,18 @@
 \setlist{nosep}
 
 \titleformat{\section}
-  {\hei\bfseries\zihao{4}}
-  {\thesection}
+  {\hei\bfseries\fontsize{14pt}{23pt}\selectfont}
+  {\thesection.}
   {0.5em}
   {}
-\titlespacing*{\section}{0pt}{0pt}{0pt}
+\titlespacing{\section}{0pt}{0pt}{0pt}
 
 \titleformat{\subsection}
-  {\kai\bfseries\zihao{4}}
-  {\thesubsection}
+  {\kai\bfseries\fontsize{14pt}{23pt}\selectfont}
+  {\hspace{2em}\thesubsection}
   {0.5em}
-  {\hspace{2em}}
-\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+  {}
+\titlespacing{\subsection}{0pt}{0pt}{0pt}
 
 \newcommand{\blankline}[1][7.8cm]{\makebox[#1][l]{\hrulefill}}
 \newlength{\fivehaoskip}
@@ -86,9 +87,17 @@
 \newcommand{\coverfield}[2]{%
   \noindent\hspace*{1.52cm}\makebox[2.75cm][l]{#1}：\blankline[#2]\par
 }
+\newcommand{\filledcoverfield}[3]{%
+  \noindent\hspace*{1.52cm}\makebox[2.75cm][l]{#1}：%
+  \underline{\makebox[#3][c]{#2}}\par
+}
 \newcommand{\coverfieldtime}{%
   \noindent\hspace*{1.52cm}\makebox[2.75cm][s]{时\hfill 间}：%
   \blankline[2.20cm] 至 \blankline[2.20cm] 学年度 第 \blankline[1.30cm] 学期\par
+}
+\newcommand{\filledcoverfieldtime}[3]{%
+  \noindent\hspace*{1.52cm}\makebox[2.75cm][s]{时\hfill 间}：%
+  \underline{\makebox[2.20cm][c]{#1}} 至 \underline{\makebox[2.20cm][c]{#2}} 学年度 第 \underline{\makebox[1.30cm][c]{#3}} 学期\par
 }
 
 \newcommand{\makecover}{%
@@ -130,8 +139,8 @@
 \newcommand{\bodyplaceholder}{%
   \reporttitle{实践报告题目(宋体、小二号字、居中)}
 
-  {\noindent\hei\bfseries\zihao{4}一级标题为黑体、四号字、加黑（不空格）\par}
-  {\noindent\kai\bfseries\zihao{4}\hspace{2em}二级标题为楷体、四号字、加黑（空两格）\par}
+  \section{一级标题为黑体、四号字、加黑（不空格）}
+  \subsection{二级标题为楷体、四号字、加黑（空两格）}
 
   \vspace{0.55cm}
   \begin{center}
@@ -142,13 +151,13 @@
 }
 
 \newcommand{\referencesplaceholder}{%
-  \vfill
+  \clearpage
   \begin{center}
     {\song\zihao{5}\setstretch{1}
       参考文献(注：未参考可不写)\par
     }
     \vspace{0.15cm}
-    {\song\zihao{5}\tnr\setstretch{1.0667}
+    {\song\zihao{5}\tnr\setlength{\baselineskip}{16pt}\sloppy\Urlmuskip=0mu plus 2mu\relax
       \makebox[0pt][c]{（宋体五号（英文用 Times New Roman 体五号），行距16磅，段前段后0磅，附在最后）}\par
       \vspace{0.15cm}
       \makebox[0pt][c]{（具体格式可参考《同济大学学位论文写作规范（参考）》）}\par
