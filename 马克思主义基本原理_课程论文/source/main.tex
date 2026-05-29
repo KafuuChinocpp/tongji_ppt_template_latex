@@ -1,0 +1,172 @@
+\documentclass[UTF8,a4paper,zihao=-4,fontset=fandol]{ctexart}
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xparse}
+\usepackage{xcolor}
+
+\geometry{
+  paper=a4paper,
+  left=3.17cm,
+  right=3.17cm,
+  top=2.54cm,
+  bottom=2.54cm
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=black
+}
+
+\setmainfont[
+  Path=../Font/,
+  BoldFont=timesbd.ttf
+]{times.ttf}
+\newfontfamily\tnr[
+  Path=../Font/,
+  BoldFont=timesbd.ttf
+]{times.ttf}
+
+% 原 Word/PDF 模板使用 STXinwei、SimSun、SimHei、KaiTi、FangSong。
+% 本模板从项目根目录的 Font/ 文件夹读取字体，便于随源码一起编译。
+\setCJKfamilyfont{xw}[Path=../Font/,AutoFakeBold=2.5]{STXINWEI.ttf}
+\setCJKfamilyfont{song}[Path=../Font/,AutoFakeBold=2.5]{Simsun.ttc}
+\setCJKfamilyfont{hei}[Path=../Font/,AutoFakeBold=2.5]{SimHei.ttf}
+\setCJKfamilyfont{kai}[Path=../Font/,AutoFakeBold=2.5]{Kaiti.ttf}
+\setCJKfamilyfont{fang}[Path=../Font/,AutoFakeBold=3.5]{FZKTK.TTF}
+\newfontfamily\fanglatin[
+  Path=../Font/,
+  AutoFakeBold=3.5
+]{FZKTK.TTF}
+
+\newcommand{\xw}{\CJKfamily{xw}}
+\newcommand{\song}{\CJKfamily{song}}
+\newcommand{\hei}{\CJKfamily{hei}}
+\newcommand{\kai}{\CJKfamily{kai}}
+\newcommand{\fang}{\CJKfamily{fang}}
+
+\pagestyle{empty}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep}
+
+\titleformat{\section}
+  {\hei\bfseries\zihao{4}}
+  {\thesection}
+  {0.5em}
+  {}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+
+\titleformat{\subsection}
+  {\kai\bfseries\zihao{4}}
+  {\thesubsection}
+  {0.5em}
+  {\hspace{2em}}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+\newcommand{\blankline}[1][7.8cm]{\makebox[#1][l]{\hrulefill}}
+\newlength{\fivehaoskip}
+\setlength{\fivehaoskip}{10.5bp}
+\newlength{\erhaoskip}
+\setlength{\erhaoskip}{22bp}
+\newlength{\coverTopSkip}
+\setlength{\coverTopSkip}{\dimexpr 2\fivehaoskip + \erhaoskip\relax}
+\newlength{\coverBlockSkip}
+\setlength{\coverBlockSkip}{\dimexpr 4\fivehaoskip\relax}
+\newlength{\titleFieldSkip}
+\setlength{\titleFieldSkip}{3.15cm}
+\newlength{\fieldDateSkip}
+\setlength{\fieldDateSkip}{4.00cm}
+\newcommand{\coverfield}[2]{%
+  \noindent\hspace*{1.52cm}\makebox[2.75cm][l]{#1}：\blankline[#2]\par
+}
+\newcommand{\coverfieldtime}{%
+  \noindent\hspace*{1.52cm}\makebox[2.75cm][s]{时\hfill 间}：%
+  \blankline[2.20cm] 至 \blankline[2.20cm] 学年度 第 \blankline[1.30cm] 学期\par
+}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+    \centering
+    \vspace*{-0.2cm}
+    \includegraphics[width=6.02cm,height=1.75cm]{../assets/同济大学马克思主义学院-标题图片.png}\par
+    \vspace{0.63cm}
+    {\xw\bfseries\fontsize{22pt}{34pt}\selectfont
+      同济大学思想政治理论课\par
+      学生社会实践报告\par
+    }
+    \vspace{\titleFieldSkip}
+    \begin{flushleft}
+      {\fang\fanglatin\fontsize{14pt}{24pt}\selectfont
+      \coverfield{课\hfill 程\hfill 名\hfill 称}{9.15cm}
+      \coverfield{班号（8位）}{9.15cm}
+      \coverfield{学\hfill 号}{9.15cm}
+      \coverfield{姓\hfill 名}{9.15cm}
+      \coverfield{任\hfill 课\hfill 教\hfill 师}{9.15cm}
+      \coverfieldtime
+      }
+    \end{flushleft}
+    \vspace{\fieldDateSkip}
+    {\fang\fanglatin\fontsize{14pt}{24pt}\selectfont
+      年\hspace{1em}月\hspace{1em}日\par
+      同济大学马克思主义学院\par
+    }
+  \end{titlepage}
+}
+
+\NewDocumentCommand{\reporttitle}{m}{%
+  \begin{center}
+    {\song\zihao{-2}#1\par}
+  \end{center}
+  \vspace{0.95cm}
+}
+
+\newcommand{\bodyplaceholder}{%
+  \reporttitle{实践报告题目(宋体、小二号字、居中)}
+
+  {\noindent\hei\bfseries\zihao{4}一级标题为黑体、四号字、加黑（不空格）\par}
+  {\noindent\kai\bfseries\zihao{4}\hspace{2em}二级标题为楷体、四号字、加黑（空两格）\par}
+
+  \vspace{0.55cm}
+  \begin{center}
+    {\song\zihao{-4}正\hspace{2em}文\par}
+    \vspace{0.25cm}
+    {\song\zihao{-4}(宋体小四号字，行间距26磅，字数不少于2000字）\par}
+  \end{center}
+}
+
+\newcommand{\referencesplaceholder}{%
+  \vfill
+  \begin{center}
+    {\song\zihao{5}\setstretch{1}
+      参考文献(注：未参考可不写)\par
+    }
+    \vspace{0.15cm}
+    {\song\zihao{5}\tnr\setstretch{1.0667}
+      \makebox[0pt][c]{（宋体五号（英文用 Times New Roman 体五号），行距16磅，段前段后0磅，附在最后）}\par
+      \vspace{0.15cm}
+      \makebox[0pt][c]{（具体格式可参考《同济大学学位论文写作规范（参考）》）}\par
+      \vspace{0.15cm}
+      \url{https://gs.tongji.edu.cn/info/1063/1754.htm}\par
+      \vspace{0.55cm}
+      {\color{red}\bfseries\makebox[0pt][c]{(注：提交电子版，文件格式：PDF 版本，文件命名方式：学号＋姓名)}}\par
+    }
+  \end{center}
+}
+
+\begin{document}
+
+\makecover
+
+{\song\zihao{-4}\setlength{\baselineskip}{26pt}
+\bodyplaceholder
+\referencesplaceholder
+}
+
+\end{document}
