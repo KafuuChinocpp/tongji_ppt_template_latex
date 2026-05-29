@@ -1,0 +1,722 @@
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage[outline]{contour}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=0pt,text margin right=0pt}
+
+\definecolor{tjBlue}{HTML}{007FFE}
+\definecolor{tjNumberBlue}{HTML}{0070E8}
+\definecolor{tjTitleBlue}{HTML}{63B8FF}
+\definecolor{tjTextDark}{HTML}{1D1D1D}
+\definecolor{tjTextMuted}{HTML}{3A3A3A}
+\definecolor{tjShadow}{HTML}{D0D0D0}
+
+\IfFileExists{fonts/msyh.ttc}{%
+  \setCJKmainfont[Path=fonts/,BoldFont=msyhbd.ttc]{msyh.ttc}
+  \setCJKsansfont[Path=fonts/,BoldFont=msyhbd.ttc]{msyh.ttc}
+  \newCJKfontfamily\YaHei[Path=fonts/,BoldFont=msyhbd.ttc]{msyh.ttc}
+}{%
+  \setCJKmainfont{Noto Sans CJK SC}
+  \setCJKsansfont{Noto Sans CJK SC}
+  \newCJKfontfamily\YaHei{Noto Sans CJK SC}
+}
+
+\IfFileExists{fonts/msyhl.ttc}{%
+  \newCJKfontfamily\YaHeiLight[Path=fonts/]{msyhl.ttc}
+}{%
+  \newCJKfontfamily\YaHeiLight{Noto Sans CJK SC}
+}
+
+\IfFileExists{fonts/seguibl.ttf}{%
+  \newfontfamily\SegoeBlack[Path=fonts/]{seguibl.ttf}
+}{%
+  \IfFileExists{fonts/ariblk.ttf}{%
+    \newfontfamily\SegoeBlack[Path=fonts/]{ariblk.ttf}
+  }{%
+    \newcommand{\SegoeBlack}{\sffamily\bfseries}
+  }
+}
+
+\newcommand{\hybridbackground}[1]{%
+  \node[anchor=center,inner sep=0pt] at (current page.center) {%
+    \includegraphics[width=\paperwidth,height=\paperheight]{#1}%
+  };%
+}
+
+\newcommand{\WinterCanvas}[2]{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \hybridbackground{#1}
+      #2
+    \end{tikzpicture}
+  \end{frame}
+}
+
+\newcommand{\WinterCleanCanvas}[1]{%
+  \WinterCanvas{reference/background.png}{%
+    \draw[tjTitleBlue,line width=1.2pt]
+      ([xshift=0.26cm,yshift=-0.20cm]current page.north west) --
+      ([xshift=15.72cm,yshift=-0.20cm]current page.north west);
+    #1
+  }%
+}
+
+\newcommand{\hybridshadowtext}[5]{%
+  \node[anchor=west,inner sep=0pt,text=#4,xshift=0.018cm,yshift=-0.018cm]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#5};
+  \node[anchor=west,inner sep=0pt,text=#3]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#5};
+}
+
+\newcommand{\hybridtext}[4]{%
+  \node[anchor=west,inner sep=0pt,text=#3]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#4};
+}
+
+\newcommand{\ppttext}[4]{%
+  \node[anchor=north west,inner sep=0pt,text=#3]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#4};
+}
+
+\newcommand{\pptshadowtext}[5]{%
+  \node[anchor=north west,inner sep=0pt,text=#4,xshift=0.018cm,yshift=-0.018cm]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#5};
+  \node[anchor=north west,inner sep=0pt,text=#3]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {#5};
+}
+
+\newcommand{\pptcenterbox}[6]{%
+  \pgfmathsetmacro{\pptCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\pptCenterY}{#2 + #4/2}%
+  \node[anchor=center,inner sep=0pt,text=#5,text width=#3cm,align=center]
+    at ([xshift=\pptCenterX cm,yshift=-\pptCenterY cm]current page.north west) {#6};
+}
+
+\newcommand{\pptshadowcenterbox}[7]{%
+  \pgfmathsetmacro{\pptCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\pptCenterY}{#2 + #4/2}%
+  \node[anchor=center,inner sep=0pt,text=#6,text width=#3cm,align=center,
+    xshift=0.018cm,yshift=-0.018cm]
+    at ([xshift=\pptCenterX cm,yshift=-\pptCenterY cm]current page.north west) {#7};
+  \node[anchor=center,inner sep=0pt,text=#5,text width=#3cm,align=center]
+    at ([xshift=\pptCenterX cm,yshift=-\pptCenterY cm]current page.north west) {#7};
+}
+
+\newcommand{\numberoutline}[1]{%
+  \tikz[baseline=(white.base)]{
+    \node[inner sep=0pt,text=tjNumberBlue] (blue)
+      {{\SegoeBlack\fontsize{35.2}{35.2}\selectfont #1}};
+    \node[inner sep=0pt,text=white] (white) at (blue.center)
+      {{\SegoeBlack\fontsize{31.2}{31.2}\selectfont #1}};
+  }%
+}
+
+\newcommand{\outlinednumber}[1]{%
+  \numberoutline{#1}%
+}
+
+\newcommand{\tocitemexact}[8]{%
+  \pgfmathsetmacro{\tocLineEndX}{#4 + 0.452}%
+  \draw[tjTitleBlue,line width=1.5pt]
+    ([xshift=#4cm,yshift=-#5cm]current page.north west) --
+    ([xshift=\tocLineEndX cm,yshift=-#5cm]current page.north west);
+  \ppttext{#6}{#7}{tjTextDark}{%
+    {\YaHei\bfseries\fontsize{11.3}{14}\selectfont #8}%
+  }
+}
+
+\newcommand{\slidetitlecenter}[1]{%
+  \node[anchor=north,inner sep=0pt,text=tjBlue]
+    at ([xshift=8cm,yshift=-0.53cm]current page.north west) {%
+      {\YaHei\bfseries\fontsize{9.4}{12}\selectfont #1}%
+    };
+}
+
+\newcommand{\slidetitleleft}[3]{%
+  \ppttext{#1}{#2}{tjBlue}{%
+    {\YaHei\bfseries\fontsize{9.4}{12}\selectfont #3}%
+  }
+}
+
+\newcommand{\smallheading}[3]{%
+  \ppttext{#1}{#2}{tjBlue}{%
+    {\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #3}%
+  }
+}
+
+\newcommand{\bodybox}[7]{%
+  \node[anchor=north west,inner sep=0pt,text=#4,text width=#3cm,align=left]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {%
+      {\YaHeiLight\fontsize{#5}{#6}\selectfont #7}%
+    };
+}
+
+\newcommand{\centerbodybox}[8]{%
+  \pgfmathsetmacro{\pptCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\pptCenterY}{#2 + #4/2}%
+  \node[anchor=center,inner sep=0pt,text=#5,text width=#3cm,align=center]
+    at ([xshift=\pptCenterX cm,yshift=-\pptCenterY cm]current page.north west) {%
+      {\YaHeiLight\fontsize{#6}{#7}\selectfont #8}%
+    };
+}
+
+\newcommand{\pptimage}[4]{%
+  \node[anchor=north west,inner sep=0pt]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {%
+      \includegraphics[width=#3cm]{#4}%
+    };
+}
+
+\newcommand{\pptimageopacity}[5]{%
+  \node[anchor=north west,inner sep=0pt,opacity=#4]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {%
+      \includegraphics[width=#3cm]{#5}%
+    };
+}
+
+\newcommand{\pptimagefit}[5]{%
+  \node[anchor=north west,inner sep=0pt]
+    at ([xshift=#1cm,yshift=-#2cm]current page.north west) {%
+      \includegraphics[width=#3cm,height=#4cm,keepaspectratio]{#5}%
+    };
+}
+
+\newcommand{\WinterCleanTitleLeft}[1]{%
+  \ppttext{0.88}{0.62}{tjBlue}{%
+    {\YaHei\bfseries\fontsize{9.4}{12}\selectfont #1}%
+  }
+}
+
+\newcommand{\WinterCleanTitleCenter}[1]{%
+  \node[anchor=north,inner sep=0pt,text=tjBlue]
+    at ([xshift=8cm,yshift=-0.62cm]current page.north west) {%
+      {\YaHei\bfseries\fontsize{9.4}{12}\selectfont #1}%
+    };
+}
+
+\newcommand{\WinterBlueBullet}[2]{%
+  \fill[tjTitleBlue] ([xshift=#1cm,yshift=-#2cm]current page.north west) circle[radius=0.055cm];
+}
+
+\newcommand{\WinterPhotoBox}[8]{%
+  \pgfmathsetmacro{\slotRight}{#1 + #3}%
+  \pgfmathsetmacro{\slotBottom}{#2 + #4}%
+  \pgfmathsetmacro{\slotCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\slotCenterY}{#2 + #4/2}%
+  \pgfmathsetmacro{\slotShadowLeft}{#1 + 0.035}%
+  \pgfmathsetmacro{\slotShadowRight}{#1 + #3 + 0.035}%
+  \pgfmathsetmacro{\slotShadowTop}{#2 + 0.035}%
+  \pgfmathsetmacro{\slotShadowBottom}{#2 + #4 + 0.035}%
+  \fill[black,opacity=0.035,rounded corners=2pt]
+    ([xshift=\slotShadowLeft cm,yshift=-\slotShadowTop cm]current page.north west)
+    rectangle
+    ([xshift=\slotShadowRight cm,yshift=-\slotShadowBottom cm]current page.north west);
+  \fill[white,rounded corners=2pt]
+    ([xshift=#1cm,yshift=-#2cm]current page.north west)
+    rectangle
+    ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+  \begin{scope}
+    \clip[rounded corners=2pt]
+      ([xshift=#1cm,yshift=-#2cm]current page.north west)
+      rectangle
+      ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+    \node[anchor=center,inner sep=0pt,opacity=#6]
+      at ([xshift=\slotCenterX cm,yshift=-\slotCenterY cm]current page.north west) {%
+        \includegraphics[width=#5cm]{#8}%
+      };
+    \fill[tjBlue,opacity=#7]
+      ([xshift=#1cm,yshift=-#2cm]current page.north west)
+      rectangle
+      ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+  \end{scope}
+  \draw[tjTitleBlue,opacity=0.38,line width=0.35pt,rounded corners=2pt]
+    ([xshift=#1cm,yshift=-#2cm]current page.north west)
+    rectangle
+    ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+}
+
+\newcommand{\WinterBluePanel}[4]{%
+  \pgfmathsetmacro{\panelRight}{#1 + #3}%
+  \pgfmathsetmacro{\panelBottom}{#2 + #4}%
+  \fill[tjBlue,opacity=0.82,rounded corners=2pt]
+    ([xshift=#1cm,yshift=-#2cm]current page.north west)
+    rectangle
+    ([xshift=\panelRight cm,yshift=-\panelBottom cm]current page.north west);
+}
+
+\newcommand{\WinterImageCropSlot}[8]{%
+  \pgfmathsetmacro{\slotRight}{#1 + #3}%
+  \pgfmathsetmacro{\slotBottom}{#2 + #4}%
+  \pgfmathsetmacro{\slotCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\slotCenterY}{#2 + #4/2}%
+  \begin{scope}
+    \clip
+      ([xshift=#1cm,yshift=-#2cm]current page.north west)
+      rectangle
+      ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+    \node[anchor=center,inner sep=0pt,opacity=#6]
+      at ([xshift=\slotCenterX cm,yshift=-\slotCenterY cm]current page.north west) {%
+        \includegraphics[width=#5cm]{#8}%
+      };
+    \fill[tjBlue,opacity=#7]
+      ([xshift=#1cm,yshift=-#2cm]current page.north west)
+      rectangle
+      ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+  \end{scope}
+}
+
+\newcommand{\WinterImageFitSlot}[7]{%
+  \pgfmathsetmacro{\slotCenterX}{#1 + #3/2}%
+  \pgfmathsetmacro{\slotCenterY}{#2 + #4/2}%
+  \node[anchor=center,inner sep=0pt,opacity=#5]
+    at ([xshift=\slotCenterX cm,yshift=-\slotCenterY cm]current page.north west) {%
+      \includegraphics[width=#3cm,height=#4cm,keepaspectratio]{#7}%
+    };
+  \pgfmathsetmacro{\slotRight}{#1 + #3}%
+  \pgfmathsetmacro{\slotBottom}{#2 + #4}%
+  \fill[tjBlue,opacity=#6]
+    ([xshift=#1cm,yshift=-#2cm]current page.north west)
+    rectangle
+    ([xshift=\slotRight cm,yshift=-\slotBottom cm]current page.north west);
+}
+
+\newcommand{\WinterWhyPhotoSlots}[2]{%
+  \WinterImageCropSlot{8.76}{1.72}{4.28}{2.66}{4.72}{0.72}{0.12}{#1}
+  \WinterImageCropSlot{10.55}{4.84}{3.05}{1.82}{3.32}{0.80}{0.10}{#2}
+}
+
+\newcommand{\WinterMethodPhotoSlot}[1]{%
+  \WinterImageCropSlot{9.50}{1.94}{3.98}{2.58}{4.30}{0.42}{0.30}{#1}
+}
+
+\newcommand{\WinterFindingPhotoSlot}[1]{%
+  \WinterImageCropSlot{10.70}{1.74}{3.32}{4.10}{3.55}{0.84}{0.16}{#1}
+}
+
+\newcommand{\WinterRecommendationHeroPhoto}[1]{%
+  \WinterImageCropSlot{0.00}{0.00}{7.25}{1.78}{7.65}{0.34}{0.18}{#1}
+}
+
+\newcommand{\bluebody}[4]{%
+  \bodybox{#1}{#2}{#3}{tjTextMuted}{6.6}{9}{#4}%
+}
+
+\newcommand{\tinywhitebody}[4]{%
+  \bodybox{#1}{#2}{#3}{white}{5.8}{7.5}{#4}%
+}
+
+\newcommand{\sectionheading}[3]{%
+  \pptshadowtext{#1}{#2}{tjBlue}{tjShadow}{%
+    {\YaHei\bfseries\fontsize{22.7}{28}\selectfont #3}%
+  }
+}
+
+\newcommand{\bigblueheading}[3]{%
+  \ppttext{#1}{#2}{tjBlue}{%
+    {\YaHei\bfseries\fontsize{20.8}{25}\selectfont #3}%
+  }
+}
+
+\newcommand{\WinterCover}[4]{%
+  \WinterCanvas{assets/hybrid/cover_bg.png}{%
+    \pptshadowtext{1.32}{3.55}{tjTitleBlue}{tjShadow}{%
+      {\SegoeBlack\fontsize{28.3}{33}\selectfont #1}%
+    }
+    \pptshadowtext{1.32}{4.90}{black}{tjShadow}{%
+      {\YaHei\bfseries\fontsize{28.3}{33}\selectfont #2}%
+    }
+    \ppttext{1.40}{6.15}{tjTextDark}{%
+      {\YaHeiLight\fontsize{7.1}{9.5}\selectfont 汇报人：#3}%
+    }
+    \ppttext{1.40}{6.63}{tjTextDark}{%
+      {\YaHeiLight\fontsize{7.1}{9.5}\selectfont 日期：#4}%
+    }
+  }%
+}
+
+\newcommand{\WinterTOC}[8]{%
+  \WinterCanvas{assets/hybrid/toc_bg.png}{%
+    \node[anchor=north,inner sep=0pt,text=black]
+      at ([xshift=8cm,yshift=-0.88cm]current page.north west) {%
+      {\YaHei\bfseries\fontsize{15.1}{19}\selectfont 目录}%
+    };
+    \tocitemexact{1.68}{3.01}{01}{3.35}{2.83}{3.23}{2.98}{#1}
+    \tocitemexact{1.68}{5.34}{02}{3.35}{5.16}{3.23}{5.31}{#3}
+    \tocitemexact{8.74}{2.99}{03}{10.42}{2.83}{10.29}{2.98}{#5}
+    \tocitemexact{8.74}{5.29}{04}{10.42}{5.16}{10.29}{5.31}{#7}
+    \ppttext{3.23}{3.59}{tjTextMuted}{%
+      {\YaHeiLight\fontsize{6.6}{9}\selectfont #2}%
+    }
+    \ppttext{3.23}{5.90}{tjTextMuted}{%
+      {\YaHeiLight\fontsize{6.6}{9}\selectfont #4}%
+    }
+    \ppttext{10.29}{3.55}{tjTextMuted}{%
+      {\YaHeiLight\fontsize{6.6}{9}\selectfont #6}%
+    }
+    \ppttext{10.28}{5.86}{tjTextMuted}{%
+      {\YaHeiLight\fontsize{6.6}{9}\selectfont #8}%
+    }
+  }%
+}
+
+\newcommand{\WinterSection}[2]{%
+  \WinterCanvas{#1}{%
+    \sectionheading{1.71}{4.12}{#2}%
+  }%
+}
+
+\newcommand{\WinterOverviewFrame}[2]{%
+  \WinterCanvas{assets/hybrid/slide04_bg.png}{%
+    \node[anchor=north,inner sep=0pt,text=tjBlue]
+      at ([xshift=8cm,yshift=-0.66cm]current page.north west) {%
+        {\YaHei\bfseries\fontsize{9.4}{12}\selectfont #1}%
+      };
+    #2
+  }%
+}
+
+\newcommand{\WinterOverviewCore}[2]{%
+  \smallheading{4.30}{2.40}{#1}
+  \bluebody{1.45}{2.81}{4.31}{#2}
+}
+
+\newcommand{\WinterOverviewTool}[2]{%
+  \smallheading{9.08}{1.75}{#1}
+  \bluebody{9.08}{2.16}{4.79}{#2}
+}
+
+\newcommand{\WinterOverviewScenario}[2]{%
+  \smallheading{10.82}{4.33}{#1}
+  \bluebody{10.82}{4.75}{4.13}{#2}
+}
+
+\newcommand{\WinterOverviewCollab}[2]{%
+  \smallheading{4.40}{5.77}{#1}
+  \bluebody{1.56}{6.18}{4.31}{#2}
+}
+
+\newcommand{\WinterOverviewQuestion}[2]{%
+  \smallheading{9.05}{6.81}{#1}
+  \bluebody{9.05}{7.23}{5.01}{#2}
+}
+
+\newcommand{\WinterWhyFrame}[7]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleLeft{#1}
+    \draw[tjTitleBlue,line width=1pt]
+      ([xshift=0.94cm,yshift=-1.18cm]current page.north west) --
+      ([xshift=0.94cm,yshift=-7.10cm]current page.north west);
+    \fill[tjTitleBlue] ([xshift=0.94cm,yshift=-1.18cm]current page.north west) circle[radius=0.055cm];
+    \smallheading{1.30}{2.12}{#4}
+    \bluebody{1.30}{2.62}{5.20}{#5}
+    \smallheading{1.30}{4.92}{#6}
+    \bluebody{1.30}{5.42}{5.20}{#7}
+    \WinterPhotoBox{8.25}{1.55}{5.35}{3.35}{5.65}{1.00}{0.08}{#2}
+    \WinterPhotoBox{10.62}{5.35}{3.35}{1.62}{3.65}{0.96}{0.12}{#3}
+    \draw[tjTitleBlue,line width=0.9pt]
+      ([xshift=7.65cm,yshift=-6.96cm]current page.north west) --
+      ([xshift=14.18cm,yshift=-6.96cm]current page.north west);
+  }%
+}
+
+\newcommand{\WinterWorkflowFrame}[2]{%
+  \WinterCanvas{assets/hybrid/slide07_bg.png}{%
+    \slidetitlecenter{#1}
+    #2
+  }%
+}
+
+\newcommand{\WinterWorkflowStep}[2]{%
+  \ifcase#1\relax
+  \or
+    \pptcenterbox{4.63}{2.68}{0.36}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont 1}}
+    \bluebody{5.88}{2.25}{8.23}{#2}
+  \or
+    \pptcenterbox{4.60}{3.55}{0.42}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont 2}}
+    \bluebody{6.32}{3.36}{7.88}{#2}
+  \or
+    \pptcenterbox{4.60}{4.67}{0.42}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont 3}}
+    \bluebody{6.54}{4.48}{7.57}{#2}
+  \or
+    \pptcenterbox{4.60}{5.79}{0.42}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont 4}}
+    \bluebody{7.33}{5.59}{6.87}{#2}
+  \or
+    \pptcenterbox{4.60}{6.90}{0.42}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont 5}}
+    \bluebody{7.94}{6.72}{6.17}{#2}
+  \fi
+}
+
+\newcommand{\WinterMethodFrame}[4]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \bodybox{1.28}{2.22}{5.52}{tjTextDark}{7.2}{10.2}{#3}
+    \draw[tjTitleBlue,line width=1pt]
+      ([xshift=1.28cm,yshift=-5.72cm]current page.north west) --
+      ([xshift=5.45cm,yshift=-5.72cm]current page.north west);
+    \WinterPhotoBox{8.58}{1.58}{4.78}{2.74}{5.18}{0.90}{0.08}{#2}
+    \WinterBluePanel{8.58}{4.48}{4.78}{2.48}
+    \bodybox{8.96}{4.75}{4.05}{white}{7.2}{10.2}{#4}
+  }%
+}
+
+\newcommand{\WinterCapabilityFrame}[2]{%
+  \WinterCanvas{assets/hybrid/slide09_bg.png}{%
+    \slidetitlecenter{#1}
+    #2
+  }%
+}
+
+\newcommand{\WinterCapabilityCard}[3]{%
+  \ifcase#1\relax
+  \or
+    \pptcenterbox{1.96}{4.41}{0.84}{0.48}{white}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{1.12}{5.02}{2.52}{1.92}{white}{5.8}{7.5}{#3}
+  \or
+    \pptcenterbox{5.71}{4.41}{0.84}{0.48}{white}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{4.87}{5.02}{2.52}{1.92}{white}{5.8}{7.5}{#3}
+  \or
+    \pptcenterbox{9.46}{4.41}{0.84}{0.48}{white}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{8.62}{5.02}{2.52}{1.92}{white}{5.8}{7.5}{#3}
+  \or
+    \pptcenterbox{13.20}{4.41}{0.84}{0.48}{white}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{12.36}{5.02}{2.52}{1.92}{white}{5.8}{7.5}{#3}
+  \fi
+}
+
+\newcommand{\WinterTimelineFrame}[2]{%
+  \WinterCanvas{assets/hybrid/slide11_bg.png}{%
+    \slidetitlecenter{#1}
+    #2
+  }%
+}
+
+\newcommand{\WinterTimelineStep}[3]{%
+  \ifcase#1\relax
+  \or
+    \pptcenterbox{1.13}{2.27}{0.62}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 1}}
+    \pptcenterbox{1.02}{2.98}{0.89}{0.49}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{1.84}{2.39}{#2}
+    \bluebody{1.85}{2.84}{2.75}{#3}
+  \or
+    \pptcenterbox{1.92}{6.42}{0.62}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 2}}
+    \pptcenterbox{1.69}{7.16}{1.08}{0.48}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{2.70}{6.53}{#2}
+    \bluebody{2.69}{6.99}{2.83}{#3}
+  \or
+    \pptcenterbox{5.67}{2.27}{0.62}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 3}}
+    \pptcenterbox{5.54}{2.99}{0.89}{0.48}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{6.47}{2.39}{#2}
+    \bluebody{6.47}{2.84}{2.70}{#3}
+  \or
+    \pptcenterbox{7.14}{6.44}{1.19}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 4}}
+    \pptcenterbox{7.32}{7.16}{0.89}{0.49}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{8.19}{6.53}{#2}
+    \bluebody{8.19}{7.00}{2.68}{#3}
+  \or
+    \pptcenterbox{10.98}{2.29}{1.19}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 5}}
+    \pptcenterbox{11.02}{3.01}{1.04}{0.48}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{12.03}{2.37}{#2}
+    \bluebody{12.03}{2.84}{2.62}{#3}
+  \or
+    \pptcenterbox{11.63}{6.44}{1.19}{1.01}{tjTitleBlue}{{\SegoeBlack\fontsize{20.8}{23}\selectfont 6}}
+    \pptcenterbox{11.81}{7.16}{0.89}{0.49}{tjTitleBlue}{{\SegoeBlack\fontsize{8.5}{10}\selectfont step}}
+    \smallheading{12.68}{6.53}{#2}
+    \bluebody{12.68}{7.00}{2.78}{#3}
+  \fi
+}
+
+\newcommand{\WinterFindingFrame}[5]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \draw[tjTitleBlue,line width=0.9pt]
+      ([xshift=0.88cm,yshift=-2.07cm]current page.north west) --
+      ([xshift=0.88cm,yshift=-6.70cm]current page.north west);
+    \bigblueheading{1.33}{2.30}{#3}
+    \ppttext{1.37}{3.40}{tjBlue}{%
+      {\YaHei\bfseries\fontsize{11.3}{14}\selectfont #4}%
+    }
+    \bodybox{1.37}{4.34}{6.02}{tjTextDark}{7.6}{10.5}{#5}
+    \WinterPhotoBox{9.22}{1.70}{4.72}{4.92}{5.18}{0.98}{0.12}{#2}
+    \fill[tjTitleBlue,opacity=0.18]
+      ([xshift=8.82cm,yshift=-2.07cm]current page.north west)
+      rectangle
+      ([xshift=9.06cm,yshift=-6.70cm]current page.north west);
+  }%
+}
+
+\newcommand{\WinterRecommendationFrame}[5]{%
+  \WinterCleanCanvas{%
+    \WinterPhotoBox{0.92}{0.78}{6.65}{1.72}{7.20}{0.72}{0.22}{#1}
+    \bigblueheading{1.13}{2.92}{#2}
+    \bodybox{1.16}{4.28}{5.07}{tjTextDark}{7.6}{10.5}{#3}
+    \ppttext{2.32}{6.42}{tjBlue}{%
+      {\YaHei\bfseries\fontsize{7.6}{10}\selectfont #4}%
+    }
+    #5
+  }%
+}
+
+\newcommand{\WinterRecommendationItem}[3]{%
+  \ifcase#1\relax
+  \or
+    \smallheading{7.45}{4.52}{#2}
+    \bluebody{7.48}{4.99}{3.53}{#3}
+  \or
+    \smallheading{11.49}{4.52}{#2}
+    \bluebody{11.52}{4.99}{3.53}{#3}
+  \or
+    \smallheading{7.45}{6.26}{#2}
+    \bluebody{7.48}{6.73}{3.32}{#3}
+  \or
+    \smallheading{11.49}{6.26}{#2}
+    \bluebody{11.52}{6.73}{3.82}{#3}
+  \fi
+}
+
+\newcommand{\WinterTextImageFrame}[4]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleLeft{#1}
+    \bodybox{1.03}{1.82}{4.95}{tjTextDark}{7.4}{10.4}{#2}
+    \WinterPhotoBox{7.20}{1.36}{6.05}{4.85}{6.28}{0.98}{0.00}{#3}
+    \ppttext{7.22}{6.48}{tjTextMuted}{%
+      {\YaHeiLight\fontsize{6.2}{8.5}\selectfont #4}%
+    }
+  }%
+}
+
+\newcommand{\WinterTwoImageCompareFrame}[5]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.10}{1.45}{6.20}{4.50}{1.00}{0.00}{#2}
+    \WinterImageFitSlot{8.55}{1.45}{5.35}{4.50}{1.00}{0.00}{#4}
+    \bodybox{1.18}{6.36}{5.70}{tjTextMuted}{6.6}{9.2}{#3}
+    \bodybox{8.70}{6.36}{5.35}{tjTextMuted}{6.6}{9.2}{#5}
+  }%
+}
+
+\newcommand{\WinterWideImageFrame}[3]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.05}{1.35}{13.90}{5.55}{1.00}{0.00}{#2}
+    \bodybox{2.28}{7.12}{11.20}{tjTextMuted}{6.6}{9.2}{#3}
+  }%
+}
+
+\newcommand{\WinterArchitectureFrame}[3]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.52}{1.25}{12.95}{5.72}{1.00}{0.00}{#2}
+    \bodybox{2.00}{7.10}{12.05}{tjTextMuted}{6.4}{8.8}{#3}
+  }%
+}
+
+\newcommand{\WinterArchitecturePointsFrame}[6]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.25}{1.72}{13.35}{3.40}{1.00}{0.00}{#2}
+    \smallheading{1.55}{5.72}{#3}
+    \bluebody{1.55}{6.20}{5.60}{#4}
+    \smallheading{8.10}{5.72}{#5}
+    \bluebody{8.10}{6.20}{5.85}{#6}
+  }%
+}
+
+\newcommand{\WinterDualArchitectureFrame}[7]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.10}{1.50}{6.35}{4.32}{1.00}{0.00}{#2}
+    \WinterImageFitSlot{8.35}{1.25}{5.95}{4.72}{1.00}{0.00}{#5}
+    \smallheading{1.34}{6.16}{#3}
+    \bluebody{1.34}{6.62}{5.85}{#4}
+    \smallheading{8.52}{6.16}{#6}
+    \bluebody{8.52}{6.62}{5.55}{#7}
+  }%
+}
+
+\newcommand{\WinterExperimentCompareFrame}[7]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterPhotoBox{1.24}{1.35}{5.48}{4.10}{5.70}{1.00}{0.06}{#2}
+    \WinterPhotoBox{8.18}{1.35}{4.50}{4.10}{4.88}{1.00}{0.06}{#5}
+    \smallheading{1.40}{5.86}{#3}
+    \bluebody{1.40}{6.32}{5.30}{#4}
+    \smallheading{8.34}{5.86}{#6}
+    \bluebody{8.34}{6.32}{5.12}{#7}
+  }%
+}
+
+\newcommand{\WinterThreeImageResultFrame}[5]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{0.96}{1.24}{6.56}{3.35}{1.00}{0.00}{#2}
+    \WinterImageFitSlot{8.38}{1.28}{5.90}{3.30}{1.00}{0.00}{#3}
+    \WinterImageFitSlot{1.16}{5.20}{13.20}{1.72}{1.00}{0.00}{#4}
+    \bodybox{1.24}{7.18}{12.60}{tjTextMuted}{6.2}{8.6}{#5}
+  }%
+}
+
+\newcommand{\WinterCodeAnalysisFrame}[5]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{0.76}{1.12}{6.70}{4.45}{1.00}{0.00}{#2}
+    \WinterImageFitSlot{8.05}{1.30}{6.50}{2.20}{1.00}{0.00}{#3}
+    \WinterImageFitSlot{8.05}{4.28}{6.50}{2.00}{1.00}{0.00}{#4}
+    \bodybox{1.02}{6.85}{13.40}{tjTextMuted}{6.2}{8.6}{#5}
+  }%
+}
+
+\newcommand{\WinterPlanFrame}[3]{%
+  \WinterCleanCanvas{%
+    \WinterCleanTitleCenter{#1}
+    \WinterImageFitSlot{1.00}{1.35}{13.90}{5.45}{1.00}{0.00}{#2}
+    \bodybox{1.32}{7.10}{12.90}{tjTextMuted}{6.4}{8.8}{#3}
+  }%
+}
+
+\newcommand{\WinterOutlookFrame}[2]{%
+  \WinterCanvas{assets/hybrid/slide15_bg.png}{%
+    \slidetitlecenter{#1}
+    #2
+  }%
+}
+
+\newcommand{\WinterOutlookItem}[3]{%
+  \ifcase#1\relax
+  \or
+    \pptcenterbox{1.86}{4.56}{1.35}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{1.37}{5.43}{2.33}{1.59}{tjTextMuted}{6.6}{9}{#3}
+  \or
+    \pptcenterbox{4.54}{4.57}{1.45}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{4.10}{5.44}{2.33}{1.59}{tjTextMuted}{6.6}{9}{#3}
+  \or
+    \pptcenterbox{7.12}{4.56}{1.76}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{6.83}{5.43}{2.33}{1.59}{tjTextMuted}{6.6}{9}{#3}
+  \or
+    \pptcenterbox{9.85}{4.56}{1.76}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{9.57}{5.43}{2.33}{1.59}{tjTextMuted}{6.6}{9}{#3}
+  \or
+    \pptcenterbox{12.59}{4.56}{1.76}{0.48}{tjBlue}{{\YaHei\bfseries\fontsize{6.8}{8.5}\selectfont #2}}
+    \centerbodybox{12.30}{5.43}{2.33}{1.59}{tjTextMuted}{6.6}{9}{#3}
+  \fi
+}
+
+\newcommand{\WinterThanks}[4]{%
+  \WinterCanvas{assets/hybrid/thanks_bg.png}{%
+    \pptshadowtext{0.94}{3.48}{tjTitleBlue}{tjShadow}{%
+      {\YaHei\bfseries\fontsize{25.5}{31}\selectfont #1}%
+    }
+    \pptshadowtext{0.94}{4.72}{tjTitleBlue}{tjShadow}{%
+      {\SegoeBlack\fontsize{17}{22}\selectfont #2}%
+    }
+    \ppttext{1.16}{6.02}{tjTextDark}{%
+      {\YaHeiLight\fontsize{8.5}{11.5}\selectfont 汇报人：#3}%
+    }
+    \ppttext{1.16}{6.50}{tjTextDark}{%
+      {\YaHeiLight\fontsize{8.5}{11.5}\selectfont 日期：#4}%
+    }
+  }%
+}

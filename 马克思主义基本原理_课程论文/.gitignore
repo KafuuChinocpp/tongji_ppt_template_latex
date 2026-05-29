@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Local build directory
+build/*
+!build/.gitkeep
+
+# Local font files. Keep only the directory placeholder in git.
+Font/*
+!Font/.gitkeep
+
+# Office temporary lock files
+~$*.docx
